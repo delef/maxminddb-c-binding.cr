@@ -1,7 +1,7 @@
 require "./geoip2/*"
 
 module GeoIP2
-  @@mmdb : LibMMDB::S?
+  @@mmdb = uninitialized LibMMDB::S
 
   def self.open(file, mode : Symbol = :mmap)
     open_mode = mode == :mask ? MODE_MASK : MODE_MMAP
@@ -12,7 +12,7 @@ module GeoIP2
   end
 
   def self.lookup(ip)
-    result = LibMMDB.lookup_string(pointerof(@@mmdb.as(LibMMDB::S)), ip, out gai_error, out mmdb_error)
+    result = LibMMDB.lookup_string(pointerof(@@mmdb), ip, out gai_error, out mmdb_error)
 
     raise "gai error" if gai_error != 0
     result
