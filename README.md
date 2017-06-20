@@ -1,4 +1,4 @@
-# geoip2
+# GeoIP2.cr
 
 TODO: Write a description here
 
@@ -9,7 +9,7 @@ Add this to your application's `shard.yml`:
 ```yaml
 dependencies:
   geoip:
-    github: delef/geoip2
+    github: delef/geoip2.cr
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ TODO: Write development instructions here
 
 ## Contributing
 
-1. Fork it ( https://github.com/delef/geoip2/fork )
+1. Fork it ( https://github.com/delef/geoip2.cr/fork )
 2. Create your feature branch (git checkout -b my-new-feature)
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
@@ -34,4 +34,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [[your-github-name]](https://github.com/delef/geoip2) delef - creator, maintainer
+- [[GeoIP2.cr]](https://github.com/delef/geoip2.cr) delef - creator, maintainer
