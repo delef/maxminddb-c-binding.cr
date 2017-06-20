@@ -12,7 +12,7 @@ module GeoIP2
   end
 
   def self.lookup(ip)
-    result = LibMMDB.lookup_string(pointerof(@@mmdb.not_nil!), ip, out gai_error, out mmdb_error)
+    result = LibMMDB.lookup_string(pointerof(@@mmdb.as(LibMMDB::S)), ip, out gai_error, out mmdb_error)
 
     raise "gai error" if gai_error != 0
     result
