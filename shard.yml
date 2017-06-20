@@ -1,0 +1,9 @@
+name: geoip
+version: 0.1.0
+
+authors:
+  - delef <delef@ya.ru>
+
+crystal: 0.22.0
+
+license: MIT
