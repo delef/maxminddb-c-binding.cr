@@ -34,4 +34,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [[GeoIP2.cr]](https://github.com/delef/geoip2.cr) delef - creator, maintainer
+- [delef](https://github.com/delef) - creator, maintainer
