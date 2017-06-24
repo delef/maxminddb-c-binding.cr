@@ -1,3 +1,5 @@
+require "./consts"
+
 module GeoIP2
   lib LibMMDB
     UINT128_USING_MODE = 0
@@ -13,6 +15,32 @@ module GeoIP2
     alias X__OffT = LibC::Long
     alias X_IoLockT = Void
     alias X__Off64T = LibC::Long
+
+    enum DataType
+      EXTENDED
+      POINTER
+      UTF8_STRING
+      DOUBLE
+      BYTES
+      UINT16
+      UINT32
+      MAP
+      INT32
+      UINT64
+      UINT128
+      ARRAY
+      CONTAINER
+      END_MARKER
+      BOOLEAN
+      FLOAT
+    end
+
+    enum RecordType
+      SEARCH_NODE
+      EMPTY
+      DATA
+      INVALID
+    end
 
     struct EntryS
       mmdb : S*
@@ -40,12 +68,27 @@ module GeoIP2
       netmask : Uint16T
     end
 
+    union EntryDataInner
+      pointer : Uint32T
+      utf8_string : Uint8T*
+      double_value : Float64
+      bytes : Uint8T*
+      uint16 : Uint16T
+      uint32 : Uint32T
+      int32 : Int32
+      uint128 : UInt8[16]
+      boolean : Bool
+      float_value : Float32
+    end
+
     struct EntryDataS
       has_data : Bool
+      pad : UInt8[15]
+      data : EntryDataInner
       offset : Uint32T
       offset_to_next : Uint32T
       data_size : Uint32T
-      type : Uint32T
+      type : DataType
     end
 
     struct EntryDataListS
@@ -131,7 +174,7 @@ module GeoIP2
       _unused2 : LibC::Char[20]
     end
     type File = X_IoFile
-    
+
     struct X_IoMarker
       _next : X_IoMarker*
       _sbuf : X_IoFile*

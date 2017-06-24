@@ -1,7 +1,7 @@
 require "./types"
 
 module GeoIP2
-  @[Link("libmaxminddb")]
+  @[Link("maxminddb")]
   lib LibMMDB
     fun open = MMDB_open(
       filename : LibC::Char*,
