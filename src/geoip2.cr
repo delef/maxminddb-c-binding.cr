@@ -3,7 +3,6 @@ require "./geoip2/*"
 module GeoIP2
   @@mmdb = uninitialized LibMMDB::S
 
-
   def self.open(file, mode : Symbol = :mmap)
     open_mode = mode == :mask ? MODE_MASK : MODE_MMAP
     status = LibMMDB.open(file, open_mode, out mmdb)
@@ -12,14 +11,14 @@ module GeoIP2
     raise open_error(status) if status != SUCCESS
   end
 
-  def self.lookup(ip)
+  def self.lookup(ip_address)
     gai_error = uninitialized LibC::Int
     mmdb_error = uninitialized LibC::Int
-    entry_data_list = uninitialized LibMMDB::EntryDataListS
+    data_list = uninitialized LibMMDB::EntryDataListS*
 
     result = LibMMDB.lookup_string(
       pointerof(@@mmdb),
-      ip,
+      ip_address,
       pointerof(gai_error),
       pointerof(mmdb_error)
     )
@@ -29,21 +28,22 @@ module GeoIP2
 
     if result.found_entry
       entry = result.entry
+
       status = LibMMDB.get_entry_data_list(
         pointerof(entry),
-        pointerof(entry_data_list)
+        pointerof(data_list)
       )
 
-      # if status == SUCCESS
-      #   entry_data_list
-      # else
-      #   nil
-      # end
+      if status == SUCCESS
+        data_list
+      else
+        nil
+      end
     else
-      raise "No entry for this IP address (#{ip}) was found"
+      raise "No entry for this IP address (#{ip_address}) was found"
     end
   end
 end
 
 GeoIP2.open("db/GeoLite2-City.mmdb")
-raise GeoIP2.lookup("109.254.254.83").inspect
+raise GeoIP2.lookup("139.59.147.72").inspect
