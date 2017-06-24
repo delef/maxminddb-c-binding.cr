@@ -5,8 +5,7 @@ module GeoIP2
 
   def self.open(file, mode : Symbol = :mmap)
     open_mode = mode == :mask ? MODE_MASK : MODE_MMAP
-    status = LibMMDB.open(file, open_mode, out mmdb)
-    @@mmdb = mmdb
+    status = LibMMDB.open(file, open_mode, pointerof(@@mmdb))
     
     raise open_error(status) if status != SUCCESS
   end
