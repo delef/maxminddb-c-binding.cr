@@ -44,6 +44,3 @@ module GeoIP2
     end
   end
 end
-
-GeoIP2.open("db/GeoLite2-City.mmdb")
-raise GeoIP2.lookup("139.59.147.72").inspect
