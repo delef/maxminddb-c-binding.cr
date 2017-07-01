@@ -37,6 +37,8 @@ class Test
       current = entry_data_list
       while !current.null?
         case current.value.entry_data.type
+        when .map?
+          puts "Map"
         when .utf8string?
           puts String.new current.value.entry_data.data.utf8_string, current.value.entry_data.data_size
         end
