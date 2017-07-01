@@ -21,8 +21,8 @@ module GeoIP2
     fun lookup_string = MMDB_lookup_string(
                                            mmdb : MMDB*,
                                            ipstr : Char*,
-                                           gai_error : Int*,
-                                           mmdb_error : Int*) : LookupResult
+                                           gai_error : Int8*,
+                                           mmdb_error : Int8*) : LookupResult
 
     fun lookup_sockaddr = MMDB_lookup_sockaddr(
                                                mmdb : MMDB*,
