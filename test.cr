@@ -35,7 +35,8 @@ class Test
   end
 end
 
-GeoIP2.open "db/GeoLite2-City.mmdb"
-ptr = GeoIP2.lookup("139.59.0.0").not_nil!
+db = GeoIP2.open "db/GeoLite2-City.mmdb"
 
-Test.new.list(ptr)
+res = db.lookup("139.59.0.0")
+
+p res
