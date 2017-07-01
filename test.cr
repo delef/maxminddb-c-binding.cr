@@ -36,7 +36,8 @@ class Test
     begin
       current = entry_data_list
       while !current.null?
-        if current.value.entry_data.type.utf8string?
+        case current.value.entry_data.type
+        when .utf8string?
           puts String.new current.value.entry_data.data.utf8_string, current.value.entry_data.data_size
         end
         current = current.value.next
