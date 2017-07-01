@@ -1,45 +1,40 @@
 require "./geoip2/*"
 
 module GeoIP2
-  @@mmdb = uninitialized LibMMDB::S
+  class Database
+    @db : LibMMDB::MMDB
 
-  def self.open(file, mode : Symbol = :mmap)
-    open_mode = mode == :mask ? MODE_MASK : MODE_MMAP
-    status = LibMMDB.open(file, open_mode, pointerof(@@mmdb))
-    
-    raise open_error(status) if status != SUCCESS
+    private def handle
+      pointerof(@db)
+    end
+
+    private def check(status)
+      return if status == 0
+      raise String.new LibMMDB.strerror status.to_u32
+    end
+
+    def initialize(file, open_mode)
+      check LibMMDB.open(file.to_s, open_mode.to_u32, out @db)
+    end
+
+    def finalize
+      LibMMDB.close(handle)
+    end
+
+    def lookup(ipstr : String)
+      gai_error = 0i32
+      mmdb_error = 0i32
+      result = LibMMDB.lookup_string(handle, ipstr, pointerof(gai_error).as(Pointer(Int8)), pointerof(mmdb_error).as(Pointer(Int8)))
+      if gai_error != 0
+        raise String.new LibC.gai_strerror(gai_error)
+      end
+      check mmdb_error
+      result
+    end
   end
 
-  def self.lookup(ip_address)
-    gai_error = uninitialized LibC::Int
-    mmdb_error = uninitialized LibC::Int
-    data_list = uninitialized LibMMDB::EntryDataListS*
-
-    result = LibMMDB.lookup_string(
-      pointerof(@@mmdb),
-      ip_address,
-      pointerof(gai_error),
-      pointerof(mmdb_error)
-    )
-
-    raise "Error from getaddrinfo" if gai_error != SUCCESS
-    raise open_error(mmdb_error) if mmdb_error != SUCCESS
-
-    if result.found_entry
-      entry = result.entry
-
-      status = LibMMDB.get_entry_data_list(
-        pointerof(entry),
-        pointerof(data_list)
-      )
-
-      if status == SUCCESS
-        data_list
-      else
-        nil
-      end
-    else
-      raise "No entry for this IP address (#{ip_address}) was found"
-    end
+  def self.open(file : String, mode : Symbol = :mmap)
+    open_mode = mode == :mask ? MODE_MASK : MODE_MMAP
+    Database.new(file, open_mode)
   end
 end

@@ -2,7 +2,8 @@ require "./consts"
 
 module GeoIP2
   lib LibMMDB
-    UINT128_USING_MODE = 0
+    alias IntPtrT = LibC::SizeT
+    UINT128_USING_MODE    = 0
     UINT128_IS_BYTE_ARRAY = 0
 
     alias Uint32T = LibC::UInt
@@ -17,37 +18,37 @@ module GeoIP2
     alias X__Off64T = LibC::Long
 
     enum DataType
-      EXTENDED
-      POINTER
-      UTF8_STRING
-      DOUBLE
-      BYTES
-      UINT16
-      UINT32
-      MAP
-      INT32
-      UINT64
-      UINT128
-      ARRAY
-      CONTAINER
-      END_MARKER
-      BOOLEAN
-      FLOAT
+      Extended,
+      Pointer,
+      Utf8String,
+      Double,
+      Bytes,
+      Uint16,
+      Uint32,
+      MAP,
+      INT32,
+      UINT64,
+      UINT128,
+      ARRAY,
+      CONTAINER,
+      END_MARKER,
+      BOOLEAN,
+      FLOAT,
     end
 
     enum RecordType
-      SEARCH_NODE
-      EMPTY
-      DATA
-      INVALID
+      SEARCH_NODE,
+      EMPTY,
+      DATA,
+      INVALID,
     end
 
     struct EntryS
-      mmdb : S*
+      mmdb : MMDB*
       offset : Uint32T
     end
 
-    struct S
+    struct MMDB
       flags : Uint32T
       filename : LibC::Char*
       file_size : SsizeT
@@ -65,7 +66,6 @@ module GeoIP2
     struct LookupResultS
       found_entry : Bool
       entry : EntryS
-      netmask : Uint16T
     end
 
     union EntryDataInner
@@ -173,6 +173,7 @@ module GeoIP2
       _mode : LibC::Int
       _unused2 : LibC::Char[20]
     end
+
     type File = X_IoFile
 
     struct X_IoMarker
