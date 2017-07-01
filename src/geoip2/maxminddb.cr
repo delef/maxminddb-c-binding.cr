@@ -22,7 +22,7 @@ module GeoIP2
                                            mmdb : MMDB*,
                                            ipstr : Char*,
                                            gai_error : Int8*,
-                                           mmdb_error : Int8*) : LookupResult
+                                           mmdb_error : Int8*) : LookupResultS
 
     fun lookup_sockaddr = MMDB_lookup_sockaddr(
                                                mmdb : MMDB*,

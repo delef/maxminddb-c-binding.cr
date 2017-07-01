@@ -13,7 +13,7 @@ class Test
   end
 
   def entry_data(item)
-    return unless item.has_data
+    return unless item.has_data?
 
     case item.type
     when GeoIP2::LibMMDB::DataType::MAP
@@ -27,10 +27,22 @@ class Test
     puts "HD=#{item.has_data} O=#{item.offset} ON=#{item.offset_to_next} T=#{item.type} I=#{inner(item)}"
   end
 
-  def list(ptr)
-    until ptr.null?
-      entry_data(ptr.value.entry_data)
-      ptr = ptr.value.next
+  def check(status)
+    raise "status" if status != 0
+  end
+
+  def list(entry)
+    check GeoIP2::LibMMDB.get_entry_data_list(pointerof(entry), out entry_data_list)
+    begin
+      current = entry_data_list
+      while !current.null?
+        if current.value.entry_data.type.utf8string?
+          puts String.new current.value.entry_data.data.utf8_string, current.value.entry_data.data_size
+        end
+        current = current.value.next
+      end
+    ensure
+      GeoIP2::LibMMDB.free_entry_data_list entry_data_list
     end
   end
 end
@@ -39,4 +51,4 @@ db = GeoIP2.open "db/GeoLite2-City.mmdb"
 
 res = db.lookup("139.59.0.0")
 
-p res
+Test.new.list(res.entry)

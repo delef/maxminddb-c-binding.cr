@@ -4,7 +4,7 @@ module GeoIP2
   class Database
     @db : LibMMDB::MMDB
 
-    def handle
+    private def handle
       pointerof(@db)
     end
 
@@ -13,8 +13,8 @@ module GeoIP2
       raise String.new LibMMDB.strerror status.to_u32
     end
 
-    def initialize(file : String, open_mode)
-      check LibMMDB.open(file, open_mode.to_u32, out @db)
+    def initialize(file, open_mode)
+      check LibMMDB.open(file.to_s, open_mode.to_u32, out @db)
     end
 
     def finalize
