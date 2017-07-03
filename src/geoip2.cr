@@ -62,14 +62,11 @@ module GeoIP2
 
       case current.value.entry_data.type
       when .map?
-        size = current.value.entry_data.data_size
-
-        while size > 0
-          size -= 1
+        while !current.null?
           next unless current.value.entry_data.data.utf8_string.null?
-           
+          
           result.push String.new(current.value.entry_data.data.utf8_string, current.value.entry_data.data_size)
-
+          
           current = current.value.next
         end
       when .utf8string?
