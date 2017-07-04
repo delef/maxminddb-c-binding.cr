@@ -55,7 +55,7 @@ module GeoIP2
       end
     end
 
-    alias MapValue = Nil | Bool | Int32 | UInt32 | Float32 | Float64 | String | Hash(MapValue, MapValue) | Array(MapValue)
+    alias MapValue = Nil | Bool | UInt16 | Int32 | UInt32 | Float32 | Float64 | String | Hash(MapValue, MapValue) | Array(MapValue)
     private def convert(current)
       return {current, nil} if current.null?
       entry = current.value.entry_data
@@ -77,6 +77,10 @@ module GeoIP2
           array << val
         end
         {current, array}
+      when .uint16?
+        uint16 = entry.data.uint16
+        current = current.value.next
+        {current, uint16}
       when .uint32?
         uint32 = entry.data.uint32
         current = current.value.next
