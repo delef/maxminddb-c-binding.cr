@@ -6,11 +6,6 @@ module GeoIP2
     alias Int = LibC::Int
     alias Char = LibC::Char
 
-    struct LookupResult
-      found : Bool
-      data : Uint8T[16]
-    end
-
     fun strerror = MMDB_strerror(error_code : Int) : Char*
     fun open = MMDB_open(
                          filename : Char*,
@@ -21,8 +16,8 @@ module GeoIP2
     fun lookup_string = MMDB_lookup_string(
                                            mmdb : MMDB*,
                                            ipstr : Char*,
-                                           gai_error : Int8*,
-                                           mmdb_error : Int8*) : LookupResultS
+                                           gai_error : Int*,
+                                           mmdb_error : Int*) : LookupResultS
 
     fun lookup_sockaddr = MMDB_lookup_sockaddr(
                                                mmdb : MMDB*,
