@@ -34,7 +34,7 @@ module GeoIP2
 
       begin
         entry_data_list, result = convert(entry_data_list)
-        
+
         Result.new(result.as(Hash(MapValue, MapValue)))
       ensure
         GeoIP2::LibMMDB.free_entry_data_list(entry_data_list)

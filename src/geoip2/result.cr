@@ -7,15 +7,18 @@ module GeoIP2
     end
 
     def country(locale = nil)
-      return nil if @result.nil?
-
       @result
 
+      # return nil if @result.nil?
+
+      # root = @result.as(Hash(Database::MapValue, Database::MapValue))
+      # country = root["country"].as(Hash(Database::MapValue, Database::MapValue))
+      # names = country["names"].as(NamedTuple)
 
       # {
-      #   geoname_id: data["country"]["geoname_id"],
-      #   iso_code: data["country"]["iso_code"],
-      #   names: data["country"]["names"],
+      #   geoname_id: country["geoname_id"].as(UInt32),
+      #   iso_code: country["iso_code"].as(String),
+      #   names: names.as(NamedTuple)
       # }
     end
 
