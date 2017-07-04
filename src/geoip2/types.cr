@@ -31,7 +31,7 @@ module GeoIP2
       Uint128,
       Array,
       Container,
-      EendMarker,
+      EndMarker,
       Boolean,
       Float,
     end
