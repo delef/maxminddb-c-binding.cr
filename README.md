@@ -35,3 +35,5 @@ TODO: Write development instructions here
 ## Contributors
 
 - [delef](https://github.com/delef) - creator, maintainer
+- [akzhan](https://github.com/akzhan) - lookup data walk
+- [unn4m3d](https://github.com/unn4m3d) - data padding fixes

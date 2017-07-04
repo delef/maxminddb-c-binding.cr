@@ -25,22 +25,22 @@ module GeoIP2
       Bytes,
       Uint16,
       Uint32,
-      MAP,
-      INT32,
-      UINT64,
-      UINT128,
-      ARRAY,
-      CONTAINER,
-      END_MARKER,
-      BOOLEAN,
-      FLOAT,
+      Map,
+      Int32,
+      Uint64,
+      Uint128,
+      Array,
+      Container,
+      EndMarker,
+      Boolean,
+      Float,
     end
 
     enum RecordType
-      SEARCH_NODE,
-      EMPTY,
-      DATA,
-      INVALID,
+      SearchNode,
+      Empty,
+      Data,
+      Invalid,
     end
 
     struct EntryS
@@ -50,7 +50,7 @@ module GeoIP2
 
     struct MMDB
       flags : Uint32T
-      filename : LibC::Char*
+      filename : Char*
       file_size : SsizeT
       file_content : Uint8T*
       data_section : Uint8T*
