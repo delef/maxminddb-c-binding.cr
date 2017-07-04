@@ -13,7 +13,7 @@ module GeoIP2
 
       # root = @result.as(Hash(Database::MapValue, Database::MapValue))
       # country = root["country"].as(Hash(Database::MapValue, Database::MapValue))
-      # names = country["names"].as(NamedTuple)
+      # names = country["names"].as(Hash(Database::MapValue, Database::MapValue))
 
       # {
       #   geoname_id: country["geoname_id"].as(UInt32),
