@@ -33,23 +33,9 @@ module GeoIP2
       check GeoIP2::LibMMDB.get_entry_data_list(pointerof(entry), out entry_data_list)
 
       begin
-        current = entry_data_list
-        result = {names: [] of String, cities: [] of String}
-
         entry_data_list, result = convert(entry_data_list)
-
-        pp result
-
-        # while !current.null?
-        #   case current.value.entry_data.type
-        #   when .map?
-        #     puts "Map - 1"
-        #   when .utf8string?
-        #     puts "Value - 2"
-        #     puts String.new(current.value.entry_data.data.utf8_string, current.value.entry_data.data_size)
-        #   end
-        #   current = current.value.next
-        # end
+        
+        Result.new(result.as(Hash(MapValue, MapValue)))
       ensure
         GeoIP2::LibMMDB.free_entry_data_list(entry_data_list)
       end
@@ -58,61 +44,65 @@ module GeoIP2
     alias MapValue = Nil | Bool | UInt16 | Int32 | UInt32 | Float32 | Float64 | String | Hash(MapValue, MapValue) | Array(MapValue)
     private def convert(current)
       return {current, nil} if current.null?
+      
       entry = current.value.entry_data
+
       case entry.type
       when .map?
-<<<<<<< HEAD
-        while !current.null?
-          next unless current.value.entry_data.data.utf8_string.null?
-          
-          result.push String.new(current.value.entry_data.data.utf8_string, current.value.entry_data.data_size)
-          
-          current = current.value.next
-=======
         mapping = Hash(MapValue, MapValue).new(initial_capacity: entry.data_size)
         current = current.value.next
+
         entry.data_size.times do
           current, key = convert(current)
           current, val = convert(current)
           mapping[key] = val
         end
+
         {current, mapping}
       when .array?
         array = Array(MapValue).new(entry.data_size)
         current = current.value.next
+
         entry.data_size.times do
           current, val = convert(current)
           array << val
->>>>>>> 5a268030e2a14438dfe8386b15386157c746ec1a
         end
+
         {current, array}
       when .uint16?
         uint16 = entry.data.uint16
         current = current.value.next
+
         {current, uint16}
       when .uint32?
         uint32 = entry.data.uint32
         current = current.value.next
+
         {current, uint32}
       when .int32?
         int32 = entry.data.int32
         current = current.value.next
+
         {current, int32}
       when .boolean?
         boolean = entry.data.boolean
         current = current.value.next
+
         {current, boolean}
       when .float?
         float_value = entry.data.float_value
         current = current.value.next
+
         {current, float_value}
       when .double?
         double_value = entry.data.double_value
         current = current.value.next
+
         {current, double_value}
       when .utf8string?
         str = String.new(entry.data.utf8_string, entry.data_size)
         current = current.value.next
+
         {current, str}
       else
         current = current.value.next
