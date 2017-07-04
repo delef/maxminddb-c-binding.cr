@@ -19,8 +19,8 @@ module GeoIP2
       result = LibMMDB.lookup_string(
         handle,
         ipstr,
-        pointerof(gai_error).as(Pointer(Int8)),
-        pointerof(mmdb_error).as(Pointer(Int8))
+        pointerof(gai_error),
+        pointerof(mmdb_error)
       )
 
       raise String.new LibC.gai_strerror(gai_error) unless gai_error == SUCCESS
