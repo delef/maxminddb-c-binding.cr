@@ -1,6 +1,6 @@
 module GeoIP2
   class Result
-    @result : Hash(Database::MapValue, Database::MapValue)|Nil
+    @result : Hash(Mapping::MapValue, Mapping::MapValue)?
     @locale : Symbol|String?
 
     def initialize(@result, @locale = nil)
