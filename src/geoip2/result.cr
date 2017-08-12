@@ -1,28 +1,26 @@
 module GeoIP2
   class Result
-    @result : Hash(Mapping::MapValue, Mapping::MapValue)?
-    @locale : Symbol|String?
+    @locale : String
 
-    def initialize(@result, @locale = nil)
+    def initialize(data, @locale = "en")
+      @data = Any.new(data)
     end
 
-    def country(locale = nil)
-      @result
+    def city(locale : String? = nil)
+      locale ||= @locale
+      @data["city"]["names"][locale].as_s
+    end
 
-      # return nil if @result.nil?
-
-      # root = @result.as(Hash(Database::MapValue, Database::MapValue))
-      # country = root["country"].as(Hash(Database::MapValue, Database::MapValue))
-      # names = country["names"].as(Hash(Database::MapValue, Database::MapValue))
-
-      # {
-      #   geoname_id: country["geoname_id"].as(UInt32),
-      #   iso_code: country["iso_code"].as(String),
-      #   names: names.as(NamedTuple)
-      # }
+    def country(locale : String? = nil)
+      locale ||= @locale
+      @data["country"]["names"][locale].as_s
     end
 
     def iso_code
+    end
+
+    def data
+      @data
     end
   end
 end
