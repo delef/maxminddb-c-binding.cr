@@ -1,6 +1,5 @@
-# GeoIP2.cr
-
-TODO: Write a description here
+# ![GeoIP2.cr](https://user-images.githubusercontent.com/2103263/29317820-5bde9508-81d6-11e7-9aff-bb835b87c344.png)
+Pure Crystal [GeoIP2 MaxMind DB](https://github.com/maxmind/libmaxminddb/) binding
 
 ## Installation C-lib
 
@@ -18,12 +17,6 @@ You can clone this repository and build it by running:
 
 After cloning, run `./bootstrap` from the `libmaxminddb` directory and then
 follow the instructions for installing from a tarball as described above.
-
-### On Windows via Visual Studio 2013+
-
-We provide a Visual Studio solution in `projects\VS12`. This can be used to
-build both the the library and the tests. Please see the `README.md` file in
-the same directory for more information.
 
 ### On Ubuntu via PPA
 
