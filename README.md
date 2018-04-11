@@ -43,7 +43,7 @@ Add this to your application's `shard.yml`:
 
 ```yaml
 dependencies:
-  geoip:
+  geoip2:
     github: delef/geoip2.cr
 ```
 
