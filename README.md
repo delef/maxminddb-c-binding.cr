@@ -1,3 +1,6 @@
+# PROJECT MOVED: https://github.com/delef/maxminddb.cr
+
+
 # ![GeoIP2.cr](https://user-images.githubusercontent.com/2103263/29317820-5bde9508-81d6-11e7-9aff-bb835b87c344.png)
 Pure Crystal [GeoIP2 MaxMind DB](https://github.com/maxmind/libmaxminddb/) binding
 
